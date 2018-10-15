@@ -1,3 +1,10 @@
+
+beeline
+!connect jdbc:hive2://cm.bitauto.dmp:10000/default;principal=hive/cm.bitauto.dmp@BITAUTO.DMP
+
+beeline -u "jdbc:hive2://cm.bitauto.dmp:10000/default;principal=hive/cm.bitauto.dmp@BITAUTO.DMP" -n wangbin10 -p wangbin10;
+beeline -u "jdbc:hive2://cm.bitauto.dmp:10000/default;principal=hive/cm.bitauto.dmp@BITAUTO.DMP" "select count(1) from t2pdm_data.t99_yicheapp_news_id;">tt.txt
+beeline -u  'jdbc:hive2://cm.bitauto.dmp:10000/default;principal=hive/cm.bitauto.dmp@BITAUTO.DMP'  -n hive -p hive  -e  "show databases"
 列出当前自动化任务
 crontab -l
 编辑自动化列表
@@ -51,7 +58,16 @@ sh **.sh 20160101 20160101
 ssh l-hive1.f.cn5
 显示列名：
 set hive.cli.print.header=true;
-
+进入实时服务器：
+ssh l-realtimestatis1.f.cn5
+进入小集群:
+sudo -u hadoop hive
+输出到文件：
+sudo -u hadoop hive -e "">*.txt
+进入大集群:
+sudo -u flightdev /home/q/big_hive/apache-hive-1.0.0-bin/bin/hive
+输出到文件:
+sudo -uflightdev /home/q/big_hive/apache-hive-1.0.0-bin/bin/hive -e "">result.txt
 把SQL的查询结果赋给一个变量：
 a=$()
 echo $a 
@@ -145,8 +161,6 @@ vim 利用fileformat选项，来转换种文件格式。例如，使用以下命
 1. 进入命令行模式，按ctrl + v进入 visual block模式，按字母l横向选中列的个数，例如 // 需要选中2列
 2. 按字母j，或者k选中注释符号
 3. 按d键就可全部取消注释
-vim 中输入一个文件的全路径，即可通过gf命令跳转过去，ctrl+O回到原始文件
-在shell文件中执行其他shell文件，推荐使用sh /path/file.sh 方式
 ######################
 grep
 ######################
@@ -205,7 +219,7 @@ secureCRT颜色设置
 # 从网址下载文件
 wget http:...
 # 跨服务器复制文件
-scp -r /home/hadoop target_ip:/home/
+scp -r /home/hadoop 180.76.134.83:/home/
 # 在HDFS建文件夹
 hdfs dfs -mkdir -p /user/wangbin/input
 # 使用超级账户
@@ -291,3 +305,21 @@ getfacl命令用于显示文件上设置的ACL信息
 /usr/share	帮助与说明文件，也可放置共享文件
 /var	主要存放经常变化的文件，如日志
 /lost+found	当文件系统发生错误时，将一些丢失的文件片段存放在这里
+
+# 五、shell命令或脚本的执行
+1.分号";"
+例:'command1 ; command2'
+命令之间没有逻辑关系。分号连接的命令会按照顺序从前向后依次执行,所有写出来的命令最终都会被执行，即使分号前面的命令出错也不影响后面的命令。
+2."&&"
+例:'command1  &&  command2'
+逻辑与。&&连接的命令会按照顺序从前向后执行，但只有当command1正确执行才执行command2，
+在bash中，通过预定义变量“$?”来判断命令是否正确执行，如果"$?"的值为0则表示前一条命令正确执行，其他任意值都表示不正确执行。
+3."||",
+例:'command1 || command2'
+逻辑或。||连接的命令会按照顺序从前向后执行，但只有当command1不正确执行才执行command2，command1正确执行则不会执行command2。
+||和&&都是短路符号，符号左右的命令之间具有逻辑关系。
+4."&"
+例:'command1 &'  或 'command1 & command2'
+&表示将其前面的命令放入后台执行，放入后台后会立即返回到bash环境让用户可以继续和bash交互。
+如果&符号连接了两个命令，则其前面的命令被放入后台，立即执行后面的命令，
+所以可以简单地认为这两个命令是并行执行的，两端的命令之间也没有任何逻辑关系。
