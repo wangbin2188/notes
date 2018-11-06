@@ -164,18 +164,37 @@ vim 利用fileformat选项，来转换种文件格式。例如，使用以下命
 ######################
 grep
 ######################
-即包含红包又包含绑定：cat workLog.txt |grep -n '红包'|grep '绑定'
-包含红包但不包含绑定：cat workLog.txt |grep -n '红包'|grep -v '绑定'
-以11开头的行：cat workLog.txt |grep -n '^11'
-以红包结束的行：cat workLog.txt |grep -n '红包$'
-Grep 命令用法大全：1、 参数： -I ：忽略大小写 -c ：打印匹配的行数 -l ：从多个文件中查找包含匹配项 -v ：查找不包含匹配项的行 -n：打印包含匹配项的行和行标 
-Grep 命令用法大全：2、正则表达式\ 忽略正则表达式中特殊字符的原有含义 ^ 匹配正则表达式的开始行 $ 匹配正则表达式的结束行 \< 从匹配正则表达式的行开始 \> 到匹配正则表达式的行结束 [ ] 单个字符；如[A] 即A符合要求 [ - ] 范围 ；如[A-Z]即A，B，C一直到Z都符合要求 . 所有的单个字符 * 所有字符，长度可以为0 
-文件中包含push的行：grep -n 'push' workLog.txt
+cat workLog.txt |grep -n '红包'|grep '绑定'  即包含红包又包含绑定：
+cat workLog.txt |grep -n '红包'|grep -v '绑定' 包含红包但不包含绑定：
+cat workLog.txt |grep -n '^11'  以11开头的行：
+cat workLog.txt |grep -n '红包$'  以红包结束的行：
+# Grep 命令用法大全：
+1、 参数：
+ -I ：忽略大小写 
+ -c ：打印匹配的行数 
+ -l ：从多个文件中查找包含匹配项 
+ -v ：查找不包含匹配项的行 
+ -n：打印包含匹配项的行和行标 
+Grep 命令用法大全：
+# 2、正则表达式
+ \ 忽略正则表达式中特殊字符的原有含义 
+ ^ 匹配正则表达式的开始行 
+ $ 匹配正则表达式的结束行 
+ \< 从匹配正则表达式的行开始 
+ \> 到匹配正则表达式的行结束 
+ [ ] 单个字符；如[A] 即A符合要求 
+ [ - ] 范围 ；如[A-Z]即A，B，C一直到Z都符合要求 
+ . 所有的单个字符 * 所有字符，长度可以为0 
+grep -n 'push' workLog.txt 文件中包含push的行：
 grep '[239].' data.doc      #输出所有含有以2,3或9开头的，并且是两个数字的行
 grep '^[^48]' data.doc      #不匹配行首是48的行
 grep -c 'push' workLog.txt 统计包含push的次数
 grep --color=auto 'push' workLog.txt 对搜索词显示颜色
 grep -v 'a' test.txt 反向查询
+grep 'test' d* 显示所有以d开头的文件中包含test的行
+grep 'test' aa bb cc 显示在 aa bb cc 文件中包含test的行
+grep '[a-z]\{5}\' aa 显示所有包含字符串至少有5个连续小写字母的串
+
 ######################
 sed 
 ######################
@@ -203,16 +222,21 @@ sed -n  '2,4p' user1 展示2~4行
 sed -n '/wang/p' user1 查找并显示包含'wang'的行
 sed -n '/aa/{s/aa/akk/};p' user1 查找并替换
 sed -i 's/^M//g' loss910.txt 去掉windows文件中的^M字符，不能直接粘贴^M，ctrl+v,ctrl+m
-
+sed -e '3,$d' -e 's/bash/blueshell/' filename
+sed -e '4a\newLine' testfile  在testfile文件的第四行后添加一行
+sed '1,20s/old/new/g' filename
+sed 以行为单位处理文件
 ######################
 awk
 ######################
+awk 比sed强的地方在于不仅能以行为单位还能以列为单位处理文件。
 awk '{print $1,$2}' communitypostapp.txt  打印第一列和第二列
 awk '$1>200' communitypostapp.txt         打印第一列大于200的行
 awk '$9~/2016-10-01/' communitypostapp.txt 大于第九列等于2016-10-01的行
 awk '{$2="";print $0}' appbusiness1205.txt  删除第二列
 echo "aaa 5 70bbb 11 75ccc 50 60" | awk '{ if( $2 >=10 && $2<=20) {print $0} }'  第二列的值大于等于10小于等于20的打印出来
-
+cut 命令也可以以指定分隔符的方式取出一个文件中一个或多个字段
+cut -d : -f 1,5 /etc/passwd 以：分隔符取出第1,5两个字段
 secureCRT颜色设置
 选项-会话选项-终端-仿真：勾选ANSI颜色
 选项-会话选项-终端-外观：勾选使用颜色
@@ -323,3 +347,20 @@ getfacl命令用于显示文件上设置的ACL信息
 &表示将其前面的命令放入后台执行，放入后台后会立即返回到bash环境让用户可以继续和bash交互。
 如果&符号连接了两个命令，则其前面的命令被放入后台，立即执行后面的命令，
 所以可以简单地认为这两个命令是并行执行的，两端的命令之间也没有任何逻辑关系。
+
+# vim删除偶数行的方法如下：
+:g/^/+1 d
+上面用到了:gbobal命令，gbobal命令格式如下：
+:[range]global/{pattern}/{command}
+# vim删除奇数行
+:g/^/d|m
+
+#source init_pipe.sh source执行脚本，两个脚本在同一个进程中，执行脚本中的环境变量都可以带到主脚本。
+#. init_pipe.sh '.'=fork,开启一个新的子shell,子shell执行完之后返回父shell,不能带回自己的环境变量；
+
+# 六、进程管理
+ctrl+c 停止一个前台进程
+ctrl+z 暂停一个前台进程，fg可以让进程继续执行
+pgrep -f test.sh 或(ps -ef | grep "test.sh" | grep -v grep | awk '{print $2}')  都是获取一个进程的pid
+kill -9 pid 杀死一个进程
+kill 不仅可以杀死进程，也可以向进程传递各种信号
