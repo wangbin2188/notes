@@ -80,10 +80,10 @@ DROP DATABASE IF EXISTS BASENAME CASCADE;
 
 
 -- 查看表存储位置，并将数据put进hdfs
-show create table db.table 
-hadoop fs -put ${local} ${hdfs}
+hdfs://data01.ycapp.yiche.com:8020/user/hive/warehouse/ycappdata.db/tmp_userid
+hadoop fs -put /home/sa_cluster/wangbin/phone20180115.txt /user/hive/warehouse/ycappdata.db/tmp_userid/
 
--- 创建外部表,并制定存储位置，删除表并不会删除hdfs上的数据
+-- 创建外部表，删除表并不会删除hdfs上的数据
 create external table if not exists stocks(
 *)
 row format delimited fields terminated by ','
@@ -121,7 +121,12 @@ alter table log_messages drop if exists partition(year=2017,month=12,day=2);
 alter table log_messages change column hms1 hms2 int ; 
 alter table log_messages add column hms3 int;
 -- 还可以修改表属性和列属性
-
+# 修改分区字段数据类型
+alter table yiche_app_community_bitautoask2_answer_ods partition column (dt string);
+# 修改分区名称
+ALTER TABLE table_name PARTITION (dt='2008-08-08') RENAME TO PARTITION (dt='20080808');
+# 修改列分隔符
+alter table store set SERDEPROPERTIES('field.delim'='\t');
 -- 从一个表查询数据并插入到分区表中
 insert overwrite table employees
 partition(country='US',state='OR')
@@ -135,7 +140,7 @@ from tablename se;
 
 set hive.exec.dynamic.partition=true;表示开启动态分区功能。还有一些其他的属性可以配置
 
--- 从表中导出数据
+-- 从表中导出数据，如果导出到hdfs，则去掉local即可
 insert overwrite local directory '/dir/'
 select * from ;
 
@@ -278,7 +283,25 @@ WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,eventinfo:dt,deviceinfo:,e
 TBLPROPERTIES("hbase.table.name"="events");
 
 
-
+ select dvid,userinfo['info'] from hbase_userinfo where userinfo['info'] like '%我是车主%' limit 5;
+-- 针对event事件插入pv数据
+insert into table hbase_kv  
+select from_unixtime(cast(dt/1000 as bigint),"yyyy-MM-dd"),
+count(if(event=='start',1,null)),
+count(if(event=='tab',1,null)),
+count(if(event=='push',1,null)),
+count(if(event=='view',1,null)),
+count(if(event=='news',1,null)),
+count(if(event=='photos',1,null)),
+count(distinct if(event=='start',dvid,null)),
+count(distinct if(event=='tab',dvid,null)),
+count(distinct if(event=='push',dvid,null)),
+count(distinct if(event=='view',dvid,null)),
+count(distinct if(event=='news',dvid,null)),
+count(distinct if(event=='photos',dvid,null)) from ycapp_events
+where event in ('start','tab','push','view','news','photos') 
+and from_unixtime(cast(dt/1000 as bigint),"yyyy-MM-dd")='${env:date}'
+group by from_unixtime(cast(dt/1000 as bigint),"yyyy-MM-dd");
 
 -- hive集合数据类型
 ARRAY：ARRAY类型是由一系列相同数据类型的元素组成，这些元素可以通过下标来访问。比如有一个ARRAY类型的变量fruits，它是由['apple','orange','mango']组成，那么我们可以通过fruits[1]来访问元素orange，因为ARRAY类型的下标是从0开始的；
@@ -334,16 +357,27 @@ userid string)
 
 
 row format delimited fields terminated by '\t';
-# 往分区表insert数据
+往分区表insert数据
 insert overwrite table ycapp_push partition(dt)
 select distinct deviceid,dt from xxtable;
 
+-- 清洗日活表
+insert overwrite table tplab_wangbin10.yiche_daily_active partition(dt='2017-08-01')
+select distinct a.dvid,remote_addr,av,cha,fac,os,uid from 
+(select dvid,etl_dt,max(time_iso8601) max_time from  t2pdm_data.t05_yicheapp_startup_log 
+where etl_dt='2017-08-01' and dvid !='' and dvid is not null
+group by dvid,etl_dt)a
+left outer join
+(select dvid,remote_addr,av,cha,fac,os,uid,time_iso8601 as max_time from  t2pdm_data.t05_yicheapp_startup_log 
+ where etl_dt='2017-08-01')b
+on a.dvid=b.dvid and a.max_time=b.max_time;
 
 
-# -- 删掉一个分区
+
+-- 删掉一个分区
 alter table tplab_wangbin10.ycapp_daily_detail drop partition( dt='2017-07-04')
       
-# -- 往分区表 load 数据
+-- 往分区表 load 数据,如果文件在hdfs，则去掉local
 LOAD DATA LOCAL INPATH '/home/sa_cluster/wangbin/0705yc_35529.txt' OVERWRITE INTO TABLE ycapp_push PARTITION(dt='2017-07-05');
 LOAD DATA LOCAL INPATH '/home/hadoop/wangbin/ip_data.txt' OVERWRITE INTO TABLE ycapp_area ;
 
@@ -355,31 +389,34 @@ create temporary function StrToMd5 as'ycappdata.hive.myfunc.StrToMd5';
 select 'd520a61cfd284ea05a6fce244168b563', StrToMd5('059931015020684') ;  
 
 
-hive函数
-http://www.yiibai.com/hive/hive_built_in_functions.html
-split()分割函数
-size()返回对象中的元素个数
-#collect_list()/collect_set()以数组方式返回一对多的内容
-select  ticket_task_no,collect_list(task_no) from stage.sg_bidding_task_pangolinticket
-where dt=20160317 
-group by ticket_task_no 
-limit 100;
-#concat_ws将多个字段连成一个，并用第一个参数分割
-select  ticket_task_no,db_host,db_name,businesstype,concat_ws(',',db_host,db_name,businesstype) from stage.sg_bidding_task_pangolinticket
-where dt=20160317 
-limit 10;
-#coalesce() 返回参数中第一个非空的参数
-#cast() 强制类型转换
-#distribute by是控制在map端如何拆分数据给reduce端的，hive会根据distribute by后面列，根据reduce的个数进行数据分发，默认是采用hash算法。
-#order by
-order by 会对输入做全局排序，因此只有一个reducer（多个reducer无法保证全局有序）
-只有一个reducer，会导致当输入规模较大时，需要较长的计算时间。
-#sort by
-sort by不是全局排序，其在数据进入reducer前完成排序.
-因此，如果用sort by进行排序，并且设置mapred.reduce.tasks>1， 则sort by只保证每个reducer的输出有序，不保证全局有序。
-#distribute by
-按照指定的字段对数据进行划分到不同的输出reduce  / 文件中。
-#Cluster By
-cluster by 除了具有 distribute by 的功能外还兼具 sort by 的功能。 
-但是排序只能是倒序排序，不能指定排序规则为asc 或者desc。
-#concat_ws('*',collect_list(task_no))将原来的数组元素强制安装新的方式连接
+-- 创建日活表
+create table ycapp_active  as 
+/*SA_BEGIN(production)*/ select date as dt,distinct_id as dvid,min(time) as time from events where event ='start' and date>='2017-07-03' and date<'2017-07-31' group by dt,distinct_id /*SA_END*/;
+
+
+select from_unixtime(unix_timestamp(publish_time,'yyyy/MM/dd hh:mm:ss'),'yyyy-MM-dd'),count(1) from ext_db_video
+where publish_status=1 and is_active=1 
+and publish_time between '2017/1/1' and '2017/7/1'
+group by from_unixtime(unix_timestamp(publish_time,'yyyy/MM/dd hh:mm:ss'),'yyyy-MM-dd');
+
+select from_unixtime(unix_timestamp(createtime,'yyyy/MM/dd hh:mm:ss'),'yyyy-MM-dd'),count(1) from ext_db_videoforum 
+where deleted=0 and status=10 and showtype=0 
+and createtime between  '2017/1/1' and '2017/7/1'
+group by from_unixtime(unix_timestamp(createtime,'yyyy/MM/dd hh:mm:ss'),'yyyy-MM-dd');
+
+create table myblog_log as 
+select distinct substr(logs,6,10) as dt,
+regexp_extract(logs,'type=(.*?)&',1) as type,
+regexp_extract(logs,'user=(.*?)&',1) as username,
+regexp_extract(logs,'ip=(.*?)&',1) as ip  from test_log 
+where substr(logs,6,10)>='2017-05-17';
+
+
+insert overwrite table ycapp_news_detail
+partition(day)
+select dvid,
+get_json_object(event,'$.newsid') as newsid,
+get_json_object(event,'$.dt') as dt,
+get_json_object(event,'$.source') as source
+from app_base_log 
+where day=20180310 and type ='headline_news_detail' limit 10;
