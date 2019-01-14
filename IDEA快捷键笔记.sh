@@ -75,6 +75,7 @@ ctrl+shift+左方向键    在代码文件上，光标跳转到当前单词 / �
 ctrl+shift+右方向键    在代码文件上，光标跳转到当前单词 / 中文句的右侧开头位置，同时选中该单词 / 中文句（必备）
 ctrl+shift+前方向键    光标放在方法名上，将方法移动到上一个方法前面，调整方法排序 （必备）
 ctrl+shift+后方向键    光标放在方法名上，将方法移动到下一个方法前面，调整方法排序 （必备）
+Ctrl+Shift+Delete 去除包装代码，与ctrl+alt+t是逆向操作
 
 # 三、ctrl+alt+快捷键
 ctrl+alt+j 用动态代码环绕
@@ -90,7 +91,7 @@ ctrl+alt+c 提取当前选择为常量：
 Ctrl+alt+B	定位至选中类或方法的具体实现
 Ctrl+alt+F7  显示使用的地方。寻找被该类或是变量被调用的地方，用弹出框的方式找出来
 Ctrl+alt+H   调用层次
-Ctrl+alt+Enter   光标所在行上空出一行，光标定位到新行
+Ctrl+alt+Enter   光标所在行上空出一行，光标定位到新行，与ctrl+shift+enter正好相反
 
 # 四、alt+shift+快捷键
 alt+shift+Inert，开启/关闭列选择模式
@@ -120,6 +121,8 @@ shift+f10 run
 # 七、ctrl+shift+alt+快捷键
 ctrl+shift+alt+t，弹出重构菜单
 ctrl+shift+alt+N，查找类中的方法或变量
+Ctrl+Alt+Shift+向左箭头 元素向左移动
+Ctrl+Alt+Shift+向左箭头 元素向右移动
 
 # 其他快捷键
 psvm 快速main方法
