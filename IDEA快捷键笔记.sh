@@ -1,11 +1,127 @@
--- alt+insert 自动插入get/set方法，构造方法，toString等
-ctrl+shift+u 切换大小写
+###################################自己整理的idea快捷键########################
+# 一、ctrl+快捷键
 ctrl+/ 注释
-ctrl+shift+/ /**/注释
 ctrl+x 剪切行
-ctrl+Y 删除行
--- ctrl+d 复制行
-Ctrl+W，可以选择单词继而语句继而行继而函数
+ctrl+y 删除行
+ctrl+c 复制当前行
+ctrl+w，可以选择单词继而语句继而行继而函数
+ctrl+d 复制当前行，并粘贴到下一行
+ctrl+r 替换
+ctrl+f :查找
+ctrl+p 显示方法参数
+ctrl+j 自动代码提示
+ctrl+u 转到父类
+ctrl+o	重写基类的方法
+ctrl+i	实现基类或接口中的方法
+ctrl+f6 更改函数签名
+ctrl+b	定位至变量定义的位置
+ctrl+f12 弹窗显示类变量和方法结构图
+ctrl+f6 重构类或方法
+ctrl+h 显示类结构图
+ctrl+n 查找类文件 
+ctrl+q 光标所在的变量 / 类名 / 方法名简介
+ctrl++ 展开代码
+ctrl+- 折叠代码
+Ctrl+[  移动光标到当前所在代码的花括号开始位置
+Ctrl+]  移动光标到当前所在代码的花括号结束位置
+Ctrl+F1 在光标所在的错误代码处显示错误信息
+Ctrl+F3 调转到所选中的词的下一个引用位置
+
+
+# 二、ctrl+shift+快捷键
+ctrl+shift+u 切换大小写
+ctrl+shift+/ /**/注释
+ctrl+shift+A 搜索事件
+ctrl+shift+B	直接定位至光标所在变量的类型定义
+ctrl+shift+F7，高亮显示所有该文本，按 Esc 高亮消失
+ctrl+shift+F9，编译
+ctrl+shift+F10，运行
+ctrl+shift+F8，查看断点
+ctrl+shift+enter 将输入的if、for、函数等等补上{}或者;使代码语句完整
+ctrl+shift+向上箭头	将光标所在的代码块向上移动
+ctrl+shift+向下箭头	将光标所在的代码块向下整体移动
+ctrl+shift+=	展开所有代码
+ctrl+shift+-	收缩所有代码
+ctrl+shift+f  根据输入内容查找整个项目 或 指定目录内文件 （必备）
+ctrl+shift+r  根据输入内容替换对应内容，范围为整个项目 或 指定目录内文件 （必备）
+ctrl+shift+j  自动将下一行合并到当前行末尾 （必备）
+ctrl+shift+z  取消撤销 （必备）
+ctrl+shift+w  递进式取消选择代码块。可选中光标所在的单词或段落，连续按会在原有选中的基础上再扩展取消选中范围 （必备）
+ctrl+shift+n  通过文件名定位 / 打开文件 / 目录，打开目录需要在输入的内容后面多加一个正斜杠 （必备）
+ctrl+shift+u  对选中的代码进行大 / 小写轮流转换 （必备）
+ctrl+shift+t  对当前类生成单元测试类，如果已经存在的单元测试类则可以进行选择
+ctrl+shift+c  复制当前文件磁盘路径到剪贴板 （必备）
+ctrl+shift+v  弹出缓存的最近拷贝的内容管理器弹出层
+ctrl+shift+e  显示最近修改的文件列表的弹出层
+ctrl+shift+h  显示方法层次结构
+ctrl+shift+b  跳转到类型声明处 （必备）
+ctrl+shift+i  快速查看光标所在的方法 或 类的定义
+ctrl+shift+a  查找动作 / 设置
+ctrl+shift+/  代码块注释 （必备）
+ctrl+shift+[  选中从光标所在位置到它的顶部中括号位置 （必备）
+ctrl+shift+]  选中从光标所在位置到它的底部中括号位置 （必备）
+ctrl+shift++  展开所有代码 （必备）
+ctrl+shift+-  折叠所有代码 （必备）
+ctrl+shift+f7    高亮显示所有该选中文本，按 esc 高亮消失 （必备）
+ctrl+shift+f8    在 debug 模式下，指定断点进入条件
+ctrl+shift+f9    编译选中的文件 / 包 / module
+ctrl+shift+f12   编辑器最大化 （必备）
+ctrl+shift+space 智能代码提示
+ctrl+shift+enter 自动结束代码，行末自动添加分号 （必备）
+ctrl+shift+backspace  退回到上次修改的地方 （必备）
+ctrl+shift+1,2,3...9  快速添加指定数值的书签 （必备）
+ctrl+shift+左键单击   把光标放在某个类变量上，按此快捷键可以直接定位到该类中 （必备）
+ctrl+shift+左方向键    在代码文件上，光标跳转到当前单词 / 中文句的左侧开头位置，同时选中该单词 / 中文句（必备） 
+ctrl+shift+右方向键    在代码文件上，光标跳转到当前单词 / 中文句的右侧开头位置，同时选中该单词 / 中文句（必备）
+ctrl+shift+前方向键    光标放在方法名上，将方法移动到上一个方法前面，调整方法排序 （必备）
+ctrl+shift+后方向键    光标放在方法名上，将方法移动到下一个方法前面，调整方法排序 （必备）
+
+# 三、ctrl+alt+快捷键
+ctrl+alt+j 用动态代码环绕
+ctrl+alt+s 打开setting
+Ctrl+alt+←/→ 返回至上次浏览的位置
+ctrl+alt+t 可以把代码包在一个块内，例如：try/catch,if/else
+ctrl+alt+l :格式化代码
+ctrl+alt+v 获取表达式的对象类型和对象名
+ctrl+alt+m 将选中代码生成一个方法
+ctrl+alt+f 提取当前选择为成员属性
+ctrl+alt+p 提取当前选择为方法参数
+ctrl+alt+c 提取当前选择为常量：
+Ctrl+alt+B	定位至选中类或方法的具体实现
+Ctrl+alt+F7  显示使用的地方。寻找被该类或是变量被调用的地方，用弹出框的方式找出来
+Ctrl+alt+H   调用层次
+Ctrl+alt+Enter   光标所在行上空出一行，光标定位到新行
+
+# 四、alt+shift+快捷键
+alt+shift+Inert，开启/关闭列选择模式
+alt+shift+F9，选择 Debug
+alt+shift+F10，选择 Run
+
+
+# 五、alt+快捷键
+alt+↑/↓ 在方法间切换
+alt+1 显示项目结构图
+alt+7 显示类变量和方法结构图
+alt+F7查看变量的使用
+alt+ <- 上次光标所在位置
+alt+ ->  前进
+alt+/	自动完成
+alt+Enter	自动提示完成
+alt+8 显示类继承结构图
+alt+ins 代码自动生成，如set/get方法,构造函数,toString,代理等
+
+
+# 六、shift+快捷键
+shift+esc 退出最后窗口，可以用来关闭代码输出窗口
+shift按两下 搜索所有文件
+shift+f6 重命名
+shift+f10 run
+
+# 七、ctrl+shift+alt+快捷键
+ctrl+shift+alt+t，弹出重构菜单
+ctrl+shift+alt+N，查找类中的方法或变量
+
+# 其他快捷键
 psvm 快速main方法
 sout 快速println方法
 psf  public static final
@@ -13,66 +129,10 @@ thr throw new
 iter foreach遍历
 itit iterable遍历
 fori for下标遍历
-shift按两下 搜索所有文件
-ctrl+shift+A 搜索事件
-ctrl+R 替换
-ctrl+f :查找
--- ctrl+p 显示方法参数
+F2 或 Shift+F2，高亮错误或警告快速定位
 
 
-ctrl+j ：自动代码提示
-ctrl+alt+j ：用动态代码环绕
-ctrl+u :转到父类
--- ctrl+alt+s:打开setting
-
-ctrl+o:重写方法
-
-Ctrl+Alt+←/→，返回至上次浏览的位置
--- F2 或 Shift+F2，高亮错误或警告快速定位
-Ctrl+Shift+F7，高亮显示所有该文本，按 Esc 高亮消失
-Alt+Shift+Inert，开启/关闭列选择模式
-Alt+Shift+F9，选择 Debug
--- Alt+Shift+F10，选择 Run
-Ctrl+Shift+F9，编译
--- Ctrl+Shift+F10，运行
-Ctrl+Shift+F8，查看断点
--- shift+f6 重命名
--- ctrl+f6 重构类或方法
-ctrl+alt+shift+t，弹出重构菜单
--- ctrl+alt+t：可以把代码包在一个块内，例如：try/catch,if/else
--- ctrl+alt+l :格式化代码
--- ctrl+alt+v 获取表达式的对象类型和对象名
--- ctrl+alt+m 将选中代码生成一个方法
--- ctrl+alt+f 提取当前选择为成员属性
--- ctrl+alt+p 提取当前选择为方法参数
--- ctrl+alt+c 提取当前选择为常量：
-Ctrl+Shift+Alt+N，查找类中的方法或变量
-alt+↑/↓ 在方法间切换
--- alt+1 显示项目结构图
--- alt+7 显示类变量和方法结构图
--- alt+F7查看变量的使用
--- ctrl+F12 弹窗显示类变量和方法结构图
--- alt+8 显示类继承结构图
--- ctrl+h:显示类结构图
-alt+enter 默认idea的强制自动转型
--- ctrl+shift+enter 将输入的if、for、函数等等补上{}或者;使代码语句完整
-
--- Ctrl+O	重写基类的方法
--- Ctrl+I	实现基类或接口中的方法
--- Ctrl+Shift+向上箭头	将光标所在的代码块向上移动
--- Ctrl+Shift+向下箭头	将光标所在的代码块向下整体移动
-ctrl+F6 更改函数签名
-Ctrl+B	定位至变量定义的位置
-Ctrl+Alt+B	定位至选中类或方法的具体实现
-Ctrl+Shift+B	直接定位至光标所在变量的类型定义
-Alt+/	自动完成
-Alt+Enter	自动提示完成
-Ctrl+Shift+=	展开所有代码
-Ctrl+Shift+-	收缩所有代码
-alt+ <- 上次光标所在位置
-alt+ ->  前进
-
-
+############################################网上大神整理#######################################
 # 一、Ctrl 快捷键
 Ctrl + F    在当前文件进行文本查找 （必备）
 Ctrl + R    在当前文件进行文本替换 （必备）
