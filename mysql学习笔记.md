@@ -1,4 +1,4 @@
-﻿mysql
+mysql
 常用命令：
 mapred.reduce.tasks=1
 user/wangbin10/new_data

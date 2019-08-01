@@ -1,3 +1,6 @@
+zepplin笔记
+
+```shell
 zepplin学习笔记
 
 -- 附zepplin安装
@@ -23,3 +26,5 @@ cp /home/ztgame/soft/spark/jars/jackson-annotations-2.6.5.jar /home/ztgame/soft/
 
 -- 给zepplin增加新的插件
 ./install-interpreter.sh --name jdbc
+```
+
