@@ -10,11 +10,21 @@
 
 安装dash
 
-安装cheatsheet
+安装cheatsheet——快捷键提示工具
 
-安装moom(付费)
+安装moom(付费)——窗口移动工具
 
-安装1password(付费)
+安装1password(付费)——密码存储工具
+
+安装Omniplan(付费，有破解版)——项目管理工具
+
+安装OmniGraffle(付费)——绘图工具
+
+安装Things3（付费）——工作管理工具,（同类工具Omnifocus）
+
+安装appCleaner——app清理工具
+
+安装postman——接口测试工具
 
 安装typora
 

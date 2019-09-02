@@ -82,9 +82,9 @@ git reset HEAD <file>
 
 #后悔药3:版本回退，（场景：已经commit，尚未推送到远程库，HEAD^是版本库上一个版本）
 
-git re**set** --hard HEAD^ 
+git reset --hard HEAD^ 
 
-git re**set** --hard 1094a
+git reset --hard 1094a
 ```
 
 
@@ -168,5 +168,13 @@ git merge origin/master
 
 #把某个分支上的内容都拉取到本地
 git pull origin dev(远程分支名称)
+
+#打标签
+git tag -a v0.1 -m "version 0.1 released" 1094adb
+#删标签
+git tag -d v0.1
+#推送标签到远程
+git push origin v1.0
+git push origin --tags
 ```
 

@@ -18,6 +18,8 @@ export PATH
 
 
 source /etc/profile
+#如果报错Permission denied，则进入命令文件所在目录
+chmod +x mvn
 ```
 
 

@@ -43,3 +43,19 @@ ctrl+shift+f,代码格式化
 强制退出程序
 
 Command + Option + Esc 
+
+---
+
+terminal笔记
+
+```shell
+#无密码登陆跳板机
+ssh binwang01@jump.yuceyi.com -p 2222 -i ~/.ssh/binwang01.pem
+vim ~/.bash_profile
+#新增
+alias ll='ls -alF'
+
+source .bash_profile
+
+```
+
